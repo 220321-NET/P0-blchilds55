@@ -16,5 +16,10 @@ public class StoreBL : IStoreBL
     {
         _repo.CreateCustomer(customerToCreate);
     }
+
+    public int CostOfItemsInCart(Cart value)
+    {
+        return _repo.CostOfItemsInCart(value);
+    }
 }
 

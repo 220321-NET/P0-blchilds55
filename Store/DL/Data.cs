@@ -49,16 +49,34 @@ public class Data : IData
         cmd.Parameters.AddWithValue("@Password", customerToCreate.Pass);
 
         cmd.ExecuteScalar();
+        connection.Close();
+    }
+
+    public int CostOfItemsInCart(Cart value)
+    {   
+        int cost = 0;
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Product", connection);
+
+        SqlDataReader dataReader = cmd.ExecuteReader();
+
+        for(int i = 0; i < value.currentCart.Count; i++)
+        {
+            cmd = new SqlCommand("SELECT * FROM Product WHERE Name = " + $"'{value.currentCart[i].getName}'", connection);
+            
+            if (dataReader.Read())
+            {
+                int add = dataReader.GetInt32(2);
+                cost += add;
+            }
+        }
+        dataReader.Close();
+        connection.Close();
+
+        return cost;
     }
 }
 
-//     public void SendOrder(List<Product> Order)
-//     {
-//         using SqlConnection connection = new SqlConnection(_connectionString);
-//         connection.Open();
-
-//         using SqlCommand cmd = new SqlCommand("INSERT INTO dbo.Orders")
-
-
-//     }
-// }
