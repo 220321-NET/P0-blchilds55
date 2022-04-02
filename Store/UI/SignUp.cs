@@ -1,10 +1,9 @@
 namespace UI;
 using System.ComponentModel.DataAnnotations;
 
-public class SignUp : IMenu
+public class SignUp : Collection
 {
-    public void Start() {}
-    public void Start(IStoreBL _bl)
+    public override void Start(IStoreBL _bl)
     {
         Customer customerToCreate = new Customer();
 

@@ -1,6 +1,6 @@
 namespace UI;
 
-public class MainMenu : IMenu
+public class MainMenu : Collection
 {
     private readonly IStoreBL _bl;
 
@@ -8,8 +8,8 @@ public class MainMenu : IMenu
     {
         _bl = bL;
     }
-    public void Start(IStoreBL _bl) {}
-    public void Start() 
+
+    public override void Start() 
     {
             Console.WriteLine("88888888888888888888888888888888888888");
             Console.WriteLine("||  Welcome to the Double R Diner   ||");

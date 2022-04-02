@@ -7,7 +7,7 @@ public class MenuFactory
         string connectionString = File.ReadAllText("./connectionString.txt");
         IData repo = new Data(connectionString);
         IStoreBL bl = new StoreBL(repo);
-
+        
         switch (menuString)
         {
             case "main":

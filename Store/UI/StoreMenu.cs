@@ -1,19 +1,18 @@
 namespace UI;
 
-public class StoreMenu : IMenu {
-    public void Start() {}
-
-    public void Start(IStoreBL _bl) 
+public class StoreMenu : Collection {
+    
+    public override void Start(IStoreBL _bl, Customer value) 
     {
         Cart cart = new Cart();
         string? input = "";
 
-        Console.WriteLine("8888888888888888888888888888888888888888888888888888888888888888888888");
-        Console.WriteLine("|| [1] Coffee 1.75$                     [4] French Toast $6.50      ||");
-        Console.WriteLine("|| [2] 2 Eggs, Any Style $4.00          [5] Pancakes $5.75          ||");
-        Console.WriteLine("|| [3] Steak $9.95                      [6] Famous Cherry Pie $2.50 ||");
-        Console.WriteLine("||                         [x] to Exit                              ||");                    
-        Console.WriteLine("8888888888888888888888888888888888888888888888888888888888888888888888");
+        Console.WriteLine("88888888888888888888888888888888888888888888888888888888888888888888888");
+        Console.WriteLine("|| [1] Coffee $2.00                     [4] French Toast $7.00       ||");
+        Console.WriteLine("|| [2] 2 Eggs, Any Style $4.00          [5] Pancakes $6.00           ||");
+        Console.WriteLine("|| [3] Steak $10.00                     [6] Famous Cherry Pie $3.00  ||");
+        Console.WriteLine("||                          [x] to Exit                              ||");                    
+        Console.WriteLine("88888888888888888888888888888888888888888888888888888888888888888888888");
         
         do
         {   
@@ -48,6 +47,8 @@ public class StoreMenu : IMenu {
                     break;
             }
         } while (input != "x");
+        int cost = _bl.CostOfItemsInCart(cart);
+        Console.WriteLine(cost);
     }
     public Cart AddToCart(Product value, Cart cart)
     {
