@@ -78,5 +78,30 @@ public class Data : IData
 
         return cost;
     }
+
+    public List<Product> GetInventory()
+    {   
+        List<Product> inventoryList = new List<Product>();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM Inventory JOIN Product ON Inventory.InventoryId = Product.ProductId", connection);
+
+        SqlDataReader dataReader = cmd.ExecuteReader();
+
+        while(dataReader.Read())
+        {   
+            int Id = dataReader.GetInt32(3);
+            int productAmount = dataReader.GetInt32(2);
+            string inventoryItem = dataReader.GetString(4);
+            Product product = new Product(inventoryItem);
+            product.Id = Id;
+            product.Amount = productAmount;
+            inventoryList.Add(product);
+        }
+
+        return inventoryList;
+    }
 }
 

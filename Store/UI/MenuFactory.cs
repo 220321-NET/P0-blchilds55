@@ -16,6 +16,8 @@ public class MenuFactory
                 return new Login();
             case "signup":
                 return new SignUp();
+            case "manager":
+                return new Manager();
             case "storemenu":
                 return new StoreMenu();
             default:

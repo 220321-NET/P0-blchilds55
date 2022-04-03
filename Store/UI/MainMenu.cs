@@ -29,7 +29,8 @@ public class MainMenu : Collection
                     new MenuFactory().GetMenu("signup").Start(_bl);
                     break;
 
-                case "Norma":
+                case "norma":
+                    new MenuFactory().GetMenu("manager").Start(_bl);
                     break;
             }
     }

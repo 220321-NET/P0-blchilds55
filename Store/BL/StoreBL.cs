@@ -21,5 +21,10 @@ public class StoreBL : IStoreBL
     {
         return _repo.CostOfItemsInCart(value);
     }
+
+    public List<Product> GetInventory()
+    {
+        return _repo.GetInventory();
+    }
 }
 
