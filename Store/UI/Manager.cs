@@ -9,7 +9,7 @@ public class Manager : Collection
         Console.WriteLine("|| [2] Update Inventory ||");
         Console.WriteLine("88888888888888888888888888");
 
-        string? input = Console.ReadLine();
+        string input = ReadStuff();
 
         switch (input)
         {
@@ -33,12 +33,12 @@ public class Manager : Collection
 
     public void chooseInventory(IStoreBL _bl)
     {   
-        string? chooseProduct = "";
+        string chooseProduct = "";
         
         do
         {
-            Console.WriteLine("Choose inventory item by index to update, i to view inventory, or x to exit");
-            chooseProduct = Console.ReadLine();
+            Console.WriteLine("Choose inventory item by index to update, i to view inventory, or x to exit:");
+            chooseProduct = ReadStuff();
 
             Product product;
 
@@ -80,15 +80,14 @@ public class Manager : Collection
 
     public void SendToDataLayer(IStoreBL _bl, Product product, string chooseProduct)
     {
-        string? addAmount = "";
-        int newAmount = 0;
+        string addAmount = "";
 
         Console.WriteLine("Enter the amount of inventory:");
-        addAmount = Console.ReadLine();
+        addAmount = ReadStuff();
 
         product.Id = Convert.ToInt32(chooseProduct);
         product.Amount = Convert.ToInt32(addAmount);
-        newAmount = _bl.SetDatabaseInventory(product);      
+        _bl.SetDatabaseInventory(product);      
     }
 }
 

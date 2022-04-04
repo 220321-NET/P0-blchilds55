@@ -5,7 +5,7 @@ public class Login : Collection
     public override void Start(IStoreBL _bl)
     {
         Console.WriteLine("Enter your username:");
-        string? input = Console.ReadLine();
+        string input = ReadStuff();
 
         List<Customer> customers = _bl.FindCustomer();
 

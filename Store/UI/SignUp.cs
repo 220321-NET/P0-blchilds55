@@ -9,7 +9,7 @@ public class SignUp : Collection
 
         EnterUsername:
             Console.WriteLine("Enter a username:");
-            string? input = Console.ReadLine();
+            string input = Console.ReadLine()!;
 
             try
             {
@@ -23,7 +23,7 @@ public class SignUp : Collection
         
         EnterPassword:
             Console.WriteLine("Enter a password:");
-            input = Console.ReadLine();
+            input = Console.ReadLine()!;
 
             try
             {
@@ -35,6 +35,7 @@ public class SignUp : Collection
                 goto EnterPassword;
             }
             
-            _bl.CreateCustomer(customerToCreate);
+        _bl.CreateCustomer(customerToCreate);
+        new MenuFactory().GetMenu("main").Start();   
     }
 }

@@ -17,7 +17,7 @@ public class MainMenu : Collection
             Console.WriteLine("||  [1] Login         [2] Sign-Up   ||");
             Console.WriteLine("88888888888888888888888888888888888888");   
             
-            string? input = Console.ReadLine();
+            string input = ReadStuff();
 
             switch (input)
             {
