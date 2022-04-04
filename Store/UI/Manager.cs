@@ -90,10 +90,3 @@ public class Manager : Collection
         _bl.SetDatabaseInventory(product);      
     }
 }
-
-        // Console.WriteLine("88888888888888888888888888888888888888888888888888888888888888888888888");
-        // Console.WriteLine("|| [1] Coffee $2.00                     [4] French Toast $7.00       ||");
-        // Console.WriteLine("|| [2] 2 Eggs, Any Style $4.00          [5] Pancakes $6.00           ||");
-        // Console.WriteLine("|| [3] Steak $10.00                     [6] Famous Cherry Pie $3.00  ||");
-        // Console.WriteLine("||                          [x] to Exit                              ||");                    
-        // Console.WriteLine("88888888888888888888888888888888888888888888888888888888888888888888888");

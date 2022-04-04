@@ -5,6 +5,7 @@ public class StoreMenu : Collection {
     public override void Start(IStoreBL _bl, Customer value) 
     {
         Cart cart = new Cart();
+        List<Product> inventoryList =_bl.GetInventory();
         string input = "";
 
         Console.WriteLine("88888888888888888888888888888888888888888888888888888888888888888888888");
@@ -23,38 +24,61 @@ public class StoreMenu : Collection {
             {
                 case "1":
                     Product coffee = new Product("Coffee");
-                    AddToCart(coffee, cart);
+                    AddToCart(coffee, cart, input, inventoryList, _bl);
                     break;
                 case "2":
                     Product eggs = new Product("Eggs");
-                    AddToCart(eggs, cart);
+                    AddToCart(eggs, cart, input, inventoryList, _bl);
                     break;
                 case "3":
                     Product steak = new Product("Steak");
-                    AddToCart(steak, cart);
+                    AddToCart(steak, cart, input, inventoryList, _bl);
                     break;
                 case "4":
                     Product frenchtoast = new Product("French Toast");
-                    AddToCart(frenchtoast, cart);
+                    AddToCart(frenchtoast, cart, input, inventoryList, _bl);
                     break;
                 case "5":
                     Product pancakes = new Product("Pancakes");
-                    AddToCart(pancakes, cart);
+                    AddToCart(pancakes, cart, input, inventoryList, _bl);
                     break;
                 case "6":
                     Product cherrypie = new Product("Cherry Pie");
-                    AddToCart(cherrypie, cart);
+                    AddToCart(cherrypie, cart, input, inventoryList, _bl);
                     break;
             }
         } while (input != "x");
-        int cost = _bl.CostOfItemsInCart(cart);
-
+        // int cost = _bl.CostOfItemsInCart(cart);
     }
-    public Cart AddToCart(Product value, Cart cart)
-    {
-        cart.currentCart.Add(value);
-        Console.WriteLine($"{value.getName} " + "added to cart");
+    public Cart AddToCart(Product value, Cart cart, string itemID, List<Product> inventoryList, IStoreBL _bl)
+    {   
+        ChooseAmount:
+        Console.WriteLine("How many orders of " + $"{value.getName}" + " would you like?");
+        string input = ReadStuff();
 
+        value.Amount = Convert.ToInt32(input);
+        value.Id = Convert.ToInt32(itemID);
+
+        if (inventoryList.Exists(x => x.getName == value.getName)) 
+            {
+                int itemIndex = inventoryList.FindIndex(x => x.getName == value.getName);
+
+                if (value.Amount > inventoryList[itemIndex].Amount)
+                {
+                    Console.WriteLine("Not enough stock, there are " + $"{inventoryList[itemIndex].Amount}" + " orders of " + $"{inventoryList[itemIndex].getName}" + " left");
+                    goto ChooseAmount;
+                }
+                else
+                {
+                    Product product = new Product(value.getName);
+                    product.Id = itemIndex + 1;
+                    product.Amount = inventoryList[itemIndex].Amount - value.Amount;
+                    _bl.SetDatabaseInventory(product);
+                    
+                    cart.currentCart.Add(value);        
+                    Console.WriteLine($"{value.getName} " + "added to cart");
+                }
+        }
         return cart;
     }
 }
