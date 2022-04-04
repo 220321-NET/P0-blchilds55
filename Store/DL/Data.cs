@@ -87,7 +87,7 @@ public class Data : IData
         connection.Open();
 
         SqlCommand cmd = new SqlCommand("SELECT * FROM Inventory JOIN Product ON Inventory.InventoryId = Product.ProductId", connection);
-
+        
         SqlDataReader dataReader = cmd.ExecuteReader();
 
         while(dataReader.Read())
@@ -100,8 +100,37 @@ public class Data : IData
             product.Amount = productAmount;
             inventoryList.Add(product);
         }
+        dataReader.Close();
+        connection.Close();
 
         return inventoryList;
+    }
+
+    public int SetDatabaseInventory(Product value)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM Inventory", connection);
+        
+        cmd = new SqlCommand("UPDATE Inventory SET QuantityInventory = @IUpdate WHERE InventoryId = @id", connection);
+
+        cmd.Parameters.AddWithValue("@IUpdate", value.Amount);
+        cmd.Parameters.AddWithValue("@id", value.Id);
+
+        cmd.ExecuteScalar();
+
+        cmd = new SqlCommand("SELECT * FROM Inventory WHERE ProductID = " + $"{value.Id}", connection);
+        SqlDataReader dataReader = cmd.ExecuteReader();
+
+        if (dataReader.Read())
+        {
+            value.Amount = dataReader.GetInt32(2);
+        }
+        dataReader.Close();
+        connection.Close();
+
+        return value.Amount;        
     }
 }
 

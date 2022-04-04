@@ -26,5 +26,10 @@ public class StoreBL : IStoreBL
     {
         return _repo.GetInventory();
     }
+
+    public int SetDatabaseInventory(Product value)
+    {
+        return _repo.SetDatabaseInventory(value);
+    }
 }
 
