@@ -59,21 +59,20 @@ public class Data : IData
         using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Product", connection);
-
-        SqlDataReader dataReader = cmd.ExecuteReader();
-
         for(int i = 0; i < value.currentCart.Count; i++)
         {
-            cmd = new SqlCommand("SELECT * FROM Product WHERE Name = " + $"'{value.currentCart[i].getName}'", connection);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Product WHERE Product.Name = @name", connection);
+            cmd.Parameters.AddWithValue("@name", value.currentCart[i].getName);
+
+            SqlDataReader dataReader = cmd.ExecuteReader();
             
             if (dataReader.Read())
             {
                 int add = dataReader.GetInt32(2);
-                cost += add;
+                cost += (add * value.currentCart[i].Amount);
             }
+            dataReader.Close();
         }
-        dataReader.Close();
         connection.Close();
 
         return cost;

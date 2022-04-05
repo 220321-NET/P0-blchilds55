@@ -48,7 +48,11 @@ public class StoreMenu : Collection {
                     break;
             }
         } while (input != "x");
-        // int cost = _bl.CostOfItemsInCart(cart);
+        
+        //
+        // DON'T FORGET THIS IS HERE. 
+        //
+        PlaceOrder(cart, _bl);
     }
     public Cart AddToCart(Product value, Cart cart, string itemID, List<Product> inventoryList, IStoreBL _bl)
     {   
@@ -80,5 +84,13 @@ public class StoreMenu : Collection {
                 }
         }
         return cart;
+    }
+    public void PlaceOrder(Cart cart, IStoreBL _bl)
+    {   
+        int cost = _bl.CostOfItemsInCart(cart);
+        
+        Console.WriteLine("Your order total is: " + $"{cost}" + "$");
+        Console.WriteLine("Do you wish to place this order? [1] Yes [2] No");
+        string input = ReadStuff();
     }
 }
