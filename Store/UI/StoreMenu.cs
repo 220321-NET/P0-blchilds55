@@ -12,12 +12,12 @@ public class StoreMenu : Collection {
         Console.WriteLine("|| [1] Coffee $2.00                     [4] French Toast $7.00       ||");
         Console.WriteLine("|| [2] 2 Eggs, Any Style $4.00          [5] Pancakes $6.00           ||");
         Console.WriteLine("|| [3] Steak $10.00                     [6] Famous Cherry Pie $3.00  ||");
-        Console.WriteLine("||                          [x] to Exit                              ||");                    
+        Console.WriteLine("|| [r] to Review                        [x] to Exit                  ||");                    
         Console.WriteLine("88888888888888888888888888888888888888888888888888888888888888888888888");
         
         do
         {   
-            Console.WriteLine("Enter a number to order or x to Exit:");
+            Console.WriteLine("Enter a number to order, r to see order history, or x to Exit:");
             input = ReadStuff();
 
             switch (input)
@@ -46,13 +46,26 @@ public class StoreMenu : Collection {
                     Product cherrypie = new Product("Cherry Pie");
                     AddToCart(cherrypie, cart, input, inventoryList, _bl);
                     break;
+                case "r":
+                    int orderHistory = _bl.GetOrderHistory(value);
+                    Console.WriteLine("Order history: " + $"{orderHistory}$");
+                    continue;
             }
         } while (input != "x");
         
         //
         // DON'T FORGET THIS IS HERE. 
         //
-        PlaceOrder(cart, _bl);
+
+        if (cart.currentCart.Count > 0)
+        {
+            SendOrder(cart, _bl, value);
+        }
+        else
+        {
+            Console.WriteLine("Returning to main menu");
+            new MenuFactory().GetMenu("main").Start(_bl);
+        }
     }
     public Cart AddToCart(Product value, Cart cart, string itemID, List<Product> inventoryList, IStoreBL _bl)
     {   
@@ -85,12 +98,25 @@ public class StoreMenu : Collection {
         }
         return cart;
     }
-    public void PlaceOrder(Cart cart, IStoreBL _bl)
+    public void SendOrder(Cart cart, IStoreBL _bl, Customer value)
     {   
         int cost = _bl.CostOfItemsInCart(cart);
         
         Console.WriteLine("Your order total is: " + $"{cost}" + "$");
-        Console.WriteLine("Do you wish to place this order? [1] Yes [2] No");
+        Console.WriteLine("Do you wish to place this order? [1] Yes [2] No"); // review order and remove product maybe
         string input = ReadStuff();
+
+        if (input == "1")
+        {
+            Console.WriteLine("Thank you for shopping at Double R diner! Your order will be delivered shortly. Returning to main menu");
+            _bl.PlaceOrder(cost, value);
+            new MenuFactory().GetMenu("main").Start();
+        }
+        else
+        {
+            Console.WriteLine("Returning to main menu");
+            new MenuFactory().GetMenu("main").Start(_bl);
+        }
+        
     }
 }

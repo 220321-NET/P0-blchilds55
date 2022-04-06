@@ -131,5 +131,45 @@ public class Data : IData
 
         return value.Amount;        
     }
+
+    public void PlaceOrder(int value, Customer customer)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM Orders INSERT INTO Orders(StoreID, CartID, CustomerID, Total) VALUES (@StoreID, @CartID, @CustomerID, @Total)", connection);
+        cmd.Parameters.AddWithValue("@StoreID", 1);
+        cmd.Parameters.AddWithValue("@CartID", 5);
+        cmd.Parameters.AddWithValue("@CustomerID", customer.Id);
+        cmd.Parameters.AddWithValue("@Total", value);
+        cmd.ExecuteScalar();
+
+        connection.Close();
+    }
+
+    public int GetOrderHistory(Customer value) 
+    {
+        int cost = 0;
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM Orders WHERE CustomerID = @Id", connection);
+        cmd.Parameters.AddWithValue("@Id", value.Id);
+        cmd.ExecuteScalar();
+
+        SqlDataReader dataReader = cmd.ExecuteReader();
+
+        while(dataReader.Read())
+        {   
+            int data = dataReader.GetInt32(4);
+            cost += data;
+        }
+        dataReader.Close();
+        connection.Close();
+
+        return cost;
+    }
 }
+    
 

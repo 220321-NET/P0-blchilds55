@@ -16,6 +16,7 @@ public class Manager : Collection
             case "1":
                 List<Product> inventoryList =_bl.GetInventory();
                 ViewInventory(inventoryList);
+                new MenuFactory().GetMenu("manager").Start(_bl);
                 break;
             case "2":
                 chooseInventory(_bl);

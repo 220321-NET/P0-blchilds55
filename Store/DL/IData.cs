@@ -7,4 +7,6 @@ public interface IData
         public int CostOfItemsInCart(Cart value);
         public List<Product> GetInventory();
         public int SetDatabaseInventory(Product value);
+        public void PlaceOrder(int value, Customer customer);
+        public int GetOrderHistory(Customer value);
 }

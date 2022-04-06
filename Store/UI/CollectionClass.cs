@@ -10,7 +10,7 @@ public class Collection : IMenu
     public string ReadStuff() 
     {
         TryAgain:
-        string input = Console.ReadLine()!;
+        string input = Console.ReadLine()!.Trim();
 
         if(String.IsNullOrWhiteSpace(input))
         {

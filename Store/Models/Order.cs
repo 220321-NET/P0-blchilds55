@@ -1,6 +1,6 @@
 namespace Models;
 
-public class Orders : CommonData
+public class Order : CommonData
 {
     
 }

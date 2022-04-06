@@ -10,14 +10,18 @@ public class MainMenu : Collection
     }
 
     public override void Start() 
-    {
+    {   
+        string input;
+        do
+        {
             Console.WriteLine("88888888888888888888888888888888888888");
             Console.WriteLine("||  Welcome to the Double R Diner   ||");
             Console.WriteLine("88888888888888888888888888888888888888");
             Console.WriteLine("||  [1] Login         [2] Sign-Up   ||");
+            Console.WriteLine("||          [x] to Exit             ||");
             Console.WriteLine("88888888888888888888888888888888888888");   
             
-            string input = ReadStuff();
+            input = ReadStuff();
 
             switch (input)
             {
@@ -33,5 +37,8 @@ public class MainMenu : Collection
                     new MenuFactory().GetMenu("manager").Start(_bl);
                     break;
             }
+        } while(input != "x");
+        
+        Console.WriteLine("Goodbye!");
     }
 }

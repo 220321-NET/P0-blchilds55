@@ -31,5 +31,15 @@ public class StoreBL : IStoreBL
     {
         return _repo.SetDatabaseInventory(value);
     }
+
+    public void PlaceOrder(int value, Customer customer)
+    {
+        _repo.PlaceOrder(value, customer);
+    }
+
+    public int GetOrderHistory(Customer value)
+    {
+        return _repo.GetOrderHistory(value);
+    }
 }
 
