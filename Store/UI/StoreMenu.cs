@@ -110,7 +110,7 @@ public class StoreMenu : Collection {
         {
             Console.WriteLine("Thank you for shopping at Double R diner! Your order will be delivered shortly. Returning to main menu");
             _bl.PlaceOrder(cost, value);
-            new MenuFactory().GetMenu("main").Start();
+            new MenuFactory().GetMenu("main").Start(_bl);
         }
         else
         {

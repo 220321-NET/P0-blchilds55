@@ -73,8 +73,6 @@ public class Manager : Collection
                     List<Product> inventoryList =_bl.GetInventory();
                     ViewInventory(inventoryList);
                     break;
-                case "x":
-                    break;
             }
         } while(chooseProduct != "x");
     }

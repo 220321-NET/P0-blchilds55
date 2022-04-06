@@ -36,6 +36,6 @@ public class SignUp : Collection
             }
             
         _bl.CreateCustomer(customerToCreate);
-        new MenuFactory().GetMenu("main").Start();   
+        new MenuFactory().GetMenu("storemenu").Start(_bl, customerToCreate);   
     }
 }
