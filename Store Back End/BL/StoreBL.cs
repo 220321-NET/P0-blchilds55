@@ -8,13 +8,13 @@ public class StoreBL : IStoreBL
     {
         _repo = repo;
     }
-    public List<Customer> FindCustomer() 
+    public async Task<Customer> FindCustomerAsync(string userName) 
     {
-        return _repo.FindCustomer();
+        return await _repo.FindCustomerAsync(userName);
     }
-    public void CreateCustomer(Customer customerToCreate) 
+    public void CreateCustomer(string customerName) 
     {
-        _repo.CreateCustomer(customerToCreate);
+        _repo.CreateCustomer(customerName);
     }
 
     public int CostOfItemsInCart(Cart value)
@@ -32,12 +32,12 @@ public class StoreBL : IStoreBL
         return _repo.SetDatabaseInventory(value);
     }
 
-    public void PlaceOrder(int value, Customer customer)
+    public void PlaceOrder(Cart cart, Customer customer, int cost)
     {
-        _repo.PlaceOrder(value, customer);
+        _repo.PlaceOrder(cart, customer, cost);
     }
 
-    public int GetOrderHistory(Customer value)
+    public List<Cart> GetOrderHistory(int value)
     {
         return _repo.GetOrderHistory(value);
     }

@@ -5,13 +5,12 @@ public class MenuFactory
     public IMenu GetMenu(string menuString)
     {
         string connectionString = File.ReadAllText("./connectionString.txt");
-        IData repo = new Data(connectionString);
-        IStoreBL bl = new StoreBL(repo);
+        HttpService httpService = new HttpService();
         
         switch (menuString)
         {
             case "main":
-                return new MainMenu(bl);
+                return new MainMenu(httpService);
             case "login":
                 return new Login();
             case "signup":
@@ -21,7 +20,7 @@ public class MenuFactory
             case "storemenu":
                 return new StoreMenu();
             default:
-                return new MainMenu(bl);
+                return new MainMenu(httpService);
         }
     }
 }

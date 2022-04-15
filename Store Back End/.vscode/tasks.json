@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Store Back End/WebAPI/WebAPI.csproj",
+                "${workspaceFolder}/Store/UI/UI.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Store Back End/WebAPI/WebAPI.csproj",
+                "${workspaceFolder}/Store/UI/UI.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/Store Back End/WebAPI/WebAPI.csproj"
+                "${workspaceFolder}/Store/UI/UI.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

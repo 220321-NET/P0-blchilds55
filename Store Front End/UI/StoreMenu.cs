@@ -2,10 +2,10 @@ namespace UI;
 
 public class StoreMenu : Collection {
     
-    public override void Start(IStoreBL _bl, Customer value) 
+    public override async void Start(HttpService _httpService, Customer value) 
     {
         Cart cart = new Cart();
-        List<Product> inventoryList =_bl.GetInventory();
+        // List<Product> inventoryList =  _httpService.GetInventory();
         string input = "";
 
         Console.WriteLine("88888888888888888888888888888888888888888888888888888888888888888888888");
@@ -24,31 +24,30 @@ public class StoreMenu : Collection {
             {
                 case "1":
                     Product coffee = new Product("Coffee");
-                    AddToCart(coffee, cart, input, inventoryList, _bl);
+                    // AddToCart(coffee, cart, input, inventoryList, _httpService);
                     break;
                 case "2":
                     Product eggs = new Product("Eggs");
-                    AddToCart(eggs, cart, input, inventoryList, _bl);
+                    // AddToCart(eggs, cart, input, inventoryList, _httpService);
                     break;
                 case "3":
                     Product steak = new Product("Steak");
-                    AddToCart(steak, cart, input, inventoryList, _bl);
+                    // AddToCart(steak, cart, input, inventoryList, _httpService);
                     break;
                 case "4":
                     Product frenchtoast = new Product("French Toast");
-                    AddToCart(frenchtoast, cart, input, inventoryList, _bl);
+                    // AddToCart(frenchtoast, cart, input, inventoryList, _httpService);
                     break;
                 case "5":
                     Product pancakes = new Product("Pancakes");
-                    AddToCart(pancakes, cart, input, inventoryList, _bl);
+                    // AddToCart(pancakes, cart, input, inventoryList, _httpService);
                     break;
                 case "6":
                     Product cherrypie = new Product("Cherry Pie");
-                    AddToCart(cherrypie, cart, input, inventoryList, _bl);
+                    // AddToCart(cherrypie, cart, input, inventoryList, _httpService);
                     break;
                 case "r":
-                    int orderHistory = _bl.GetOrderHistory(value);
-                    Console.WriteLine("Order history: " + $"{orderHistory}$");
+                    // _httpService.GetOrderHistory(value.id);
                     continue;
             }
         } while (input != "x");
@@ -59,15 +58,15 @@ public class StoreMenu : Collection {
 
         if (cart.currentCart.Count > 0)
         {
-            SendOrder(cart, _bl, value);
+            // SendOrder(cart, _httpService, value);
         }
         else
         {
             Console.WriteLine("Returning to main menu");
-            new MenuFactory().GetMenu("main").Start(_bl);
+            new MenuFactory().GetMenu("main").Start(_httpService);
         }
     }
-    public Cart AddToCart(Product value, Cart cart, string itemID, List<Product> inventoryList, IStoreBL _bl)
+    public Cart AddToCart(Product value, Cart cart, string itemID, List<Product> inventoryList, HttpService _httpService)
     {   
         ChooseAmount:
         Console.WriteLine("How many orders of " + $"{value.getName}" + " would you like?");
@@ -90,7 +89,7 @@ public class StoreMenu : Collection {
                     Product product = new Product(value.getName);
                     product.Id = itemIndex + 1;
                     product.Amount = inventoryList[itemIndex].Amount - value.Amount;
-                    _bl.SetDatabaseInventory(product);
+                    // _httpService.SetDatabaseInventory(product);
                     
                     cart.currentCart.Add(value);        
                     Console.WriteLine($"{value.getName} " + "added to cart");
@@ -98,24 +97,24 @@ public class StoreMenu : Collection {
         }
         return cart;
     }
-    public void SendOrder(Cart cart, IStoreBL _bl, Customer value)
+    public void SendOrder(Cart cart, HttpService _httpService, Customer value)
     {   
-        int cost = _bl.CostOfItemsInCart(cart);
+        // int cost = _httpService.CostOfItemsInCart(cart);
         
-        Console.WriteLine("Your order total is: " + $"{cost}" + "$");
+        // Console.WriteLine("Your order total is: " + $"{cost}" + "$");
         Console.WriteLine("Do you wish to place this order? [1] Yes [2] No"); // review order and remove product maybe
         string input = ReadStuff();
 
         if (input == "1")
         {
             Console.WriteLine("Thank you for shopping at Double R diner! Your order will be delivered shortly. Returning to main menu");
-            _bl.PlaceOrder(cost, value);
-            new MenuFactory().GetMenu("main").Start(_bl);
+            // _httpService.PlaceOrder(cart, value, cost);
+            new MenuFactory().GetMenu("main").Start(_httpService);
         }
         else
         {
             Console.WriteLine("Returning to main menu");
-            new MenuFactory().GetMenu("main").Start(_bl);
+            new MenuFactory().GetMenu("main").Start(_httpService);
         }
         
     }

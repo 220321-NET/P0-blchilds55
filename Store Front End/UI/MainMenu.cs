@@ -2,14 +2,14 @@ namespace UI;
 
 public class MainMenu : Collection
 {
-    private readonly IStoreBL _bl;
+    private readonly HttpService _httpService;
 
-    public MainMenu(IStoreBL bL)
+    public MainMenu(HttpService httpService)
     {
-        _bl = bL;
+        _httpService = httpService;
     }
 
-    public override void Start() 
+    public async override void Start() 
     {   
         string input;
         do
@@ -26,15 +26,15 @@ public class MainMenu : Collection
             switch (input)
             {
                 case "1": 
-                    new MenuFactory().GetMenu("login").Start(_bl);
+                    new MenuFactory().GetMenu("login").Start(_httpService);
                     break;
 
                 case "2": 
-                    new MenuFactory().GetMenu("signup").Start(_bl);
+                    new MenuFactory().GetMenu("signup").Start(_httpService);
                     break;
 
                 case "norma":
-                    new MenuFactory().GetMenu("manager").Start(_bl);
+                    new MenuFactory().GetMenu("manager").Start(_httpService);
                     break;
             }
         } while(input != "x");

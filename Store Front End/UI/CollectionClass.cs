@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 public class Collection : IMenu
 {
-    public virtual void Start() {}
-    public virtual void Start(IStoreBL _bl) {}
-    public virtual void Start(IStoreBL value0, Customer value1) {}
+    public virtual async void Start() {}
+    public virtual async void Start(HttpService httpService) {}
+    public virtual async void Start(HttpService httpService, Customer value1) {}
 
     public string ReadStuff() 
     {
