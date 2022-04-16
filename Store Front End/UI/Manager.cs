@@ -86,6 +86,9 @@ public class Manager : Collection
 
         product.Id = Convert.ToInt32(chooseProduct);
         product.Amount = Convert.ToInt32(addAmount);
+        product.DateCreated = DateTime.Now;
+        product.getName = product.getName;
+        Console.WriteLine(product.Id + " " + product.Amount + " " + product.getName + " " + product.DateCreated);
         await _httpService.SetDatabaseInventoryAsync(product);      
     }
 }

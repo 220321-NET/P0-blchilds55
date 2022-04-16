@@ -63,6 +63,7 @@ public class HttpService
 
         try
         {
+            Console.WriteLine(json);
             HttpResponseMessage response = await client.PutAsync("Store/SetInventory", content);
             response.EnsureSuccessStatusCode();
         }
