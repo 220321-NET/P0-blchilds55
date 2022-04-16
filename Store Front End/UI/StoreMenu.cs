@@ -25,27 +25,27 @@ public class StoreMenu : Collection {
             {
                 case "1":
                     Product coffee = new Product("Coffee");
-                    // AddToCart(coffee, cart, input, inventoryList, _httpService);
+                    await AddToCart(coffee, cart, input, inventoryList, _httpService);
                     break;
                 case "2":
                     Product eggs = new Product("Eggs");
-                    // AddToCart(eggs, cart, input, inventoryList, _httpService);
+                    await AddToCart(eggs, cart, input, inventoryList, _httpService);
                     break;
                 case "3":
                     Product steak = new Product("Steak");
-                    // AddToCart(steak, cart, input, inventoryList, _httpService);
+                    await AddToCart(steak, cart, input, inventoryList, _httpService);
                     break;
                 case "4":
                     Product frenchtoast = new Product("French Toast");
-                    // AddToCart(frenchtoast, cart, input, inventoryList, _httpService);
+                    await AddToCart(frenchtoast, cart, input, inventoryList, _httpService);
                     break;
                 case "5":
                     Product pancakes = new Product("Pancakes");
-                    // AddToCart(pancakes, cart, input, inventoryList, _httpService);
+                    await AddToCart(pancakes, cart, input, inventoryList, _httpService);
                     break;
                 case "6":
                     Product cherrypie = new Product("Cherry Pie");
-                    // AddToCart(cherrypie, cart, input, inventoryList, _httpService);
+                    await AddToCart(cherrypie, cart, input, inventoryList, _httpService);
                     break;
                 case "r":
                     List<Cart> orderHistory = await _httpService.GetOrderHistoryAsync(value.Id);
@@ -61,17 +61,17 @@ public class StoreMenu : Collection {
         // DON'T FORGET THIS IS HERE. 
         //
 
-        // if (cart.currentCart.Count > 0)
-        // {
-        //     // SendOrder(cart, _httpService, value);
-        // }
-        // else
-        // {
-        //     Console.WriteLine("Returning to main menu");
-        //     new MenuFactory().GetMenu("main").Start(_httpService);
-        // }
+        if (cart.currentCart.Count > 0)
+        {
+            await SendOrder(cart, _httpService, value);
+        }
+        else
+        {
+            Console.WriteLine("Returning to main menu");
+            await new MenuFactory().GetMenu("main").Start(_httpService);
+        }
     }
-    public Cart AddToCart(Product value, Cart cart, string itemID, List<Product> inventoryList, HttpService _httpService)
+    public async Task<Cart> AddToCart(Product value, Cart cart, string itemID, List<Product> inventoryList, HttpService _httpService)
     {   
         ChooseAmount:
         Console.WriteLine("How many orders of " + $"{value.getName}" + " would you like?");
@@ -94,7 +94,7 @@ public class StoreMenu : Collection {
                     Product product = new Product(value.getName);
                     product.Id = itemIndex + 1;
                     product.Amount = inventoryList[itemIndex].Amount - value.Amount;
-                    // _httpService.SetDatabaseInventory(product);
+                    await _httpService.SetDatabaseInventoryAsync(product);
                     
                     cart.currentCart.Add(value);        
                     Console.WriteLine($"{value.getName} " + "added to cart");
@@ -102,24 +102,24 @@ public class StoreMenu : Collection {
         }
         return cart;
     }
-    public void SendOrder(Cart cart, HttpService _httpService, Customer value)
+    public async Task SendOrder(Cart cart, HttpService _httpService, Customer value)
     {   
-        // int cost = _httpService.CostOfItemsInCart(cart);
+        int cost = await _httpService.CostOfItemsInCartAsync(cart);
         
-        // Console.WriteLine("Your order total is: " + $"{cost}" + "$");
+        Console.WriteLine("Your order total is: " + $"{cost}" + "$");
         Console.WriteLine("Do you wish to place this order? [1] Yes [2] No"); // review order and remove product maybe
         string input = ReadStuff();
 
         if (input == "1")
         {
             Console.WriteLine("Thank you for shopping at Double R diner! Your order will be delivered shortly. Returning to main menu");
-            // _httpService.PlaceOrder(cart, value, cost);
-            new MenuFactory().GetMenu("main").Start(_httpService);
+            await _httpService.PlaceOrderAsync(cart, value, cost);
+            await new MenuFactory().GetMenu("main").Start(_httpService);
         }
         else
         {
             Console.WriteLine("Returning to main menu");
-            new MenuFactory().GetMenu("main").Start(_httpService);
+            await new MenuFactory().GetMenu("main").Start(_httpService);
         }
         
     }

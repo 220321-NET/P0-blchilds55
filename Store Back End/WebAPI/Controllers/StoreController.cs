@@ -24,6 +24,12 @@ namespace WebAPI.Controllers
             customer = await _bl.FindCustomerAsync(userName);
             return customer;
         }
+
+        [HttpPut("Cost")]
+        public async Task<int> PutCostOfItemsInCartAync(Cart value)
+        {
+            return await _bl.CostOfItemsInCartAsync(value);
+        }
        
         [HttpGet("Cart/{id}")]
         public async Task<List<Cart>> GetOrderHistoryAsync(int id)
@@ -49,6 +55,19 @@ namespace WebAPI.Controllers
         // }
 
         // PUT api/<StoreController>/5
+        [HttpPost("PlaceOrder")]
+        public async Task PostOrderAsync(Tuple<Cart, Customer, int> OrderToBePlaced)
+        {
+            Cart cart = new Cart();
+            Customer customer = new Customer();
+            int cost;
+
+            cart = OrderToBePlaced.Item1;
+            customer = OrderToBePlaced.Item2;
+            cost = OrderToBePlaced.Item3;
+
+            await _bl.PlaceOrderAsync(cart, customer, cost);
+        }
         [HttpPut("SetInventory")]
         public async Task PutInventoryAsync(Product product)
         {

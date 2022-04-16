@@ -11,6 +11,8 @@ public class Product : CommonData
         _productName = product;
     }
 
+    public Product() {}
+
     [JsonConstructorAttribute]
     public Product(string getName, int Amount)
     {
@@ -18,7 +20,6 @@ public class Product : CommonData
         _productAmount = Amount;
     }
 
-    [JsonIgnore]
     public string getName
     {
         get => _productName;

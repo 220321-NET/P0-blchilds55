@@ -53,28 +53,28 @@ public class Data : IData
         connection.Close();
     }
 
-    public int CostOfItemsInCart(Cart value)
+    public async Task<int> CostOfItemsInCartAsync(Cart value)
     {   
         int cost = 0;
 
         using SqlConnection connection = new SqlConnection(_connectionString);
-        connection.Open();
+        await connection.OpenAsync();
 
         for(int i = 0; i < value.currentCart.Count; i++)
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Product WHERE Product.Name = @name", connection);
             cmd.Parameters.AddWithValue("@name", value.currentCart[i].getName);
 
-            SqlDataReader dataReader = cmd.ExecuteReader();
+            SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
             
-            if (dataReader.Read())
+            if (await dataReader.ReadAsync())
             {
                 int add = dataReader.GetInt32(4);
                 cost += (add * value.currentCart[i].Amount);
             }
-            dataReader.Close();
+            await dataReader.CloseAsync();
         }
-        connection.Close();
+        await connection.CloseAsync();
 
         return cost;
     }
@@ -131,7 +131,7 @@ public class Data : IData
         connection.Close();       
     }
 
-    public void PlaceOrder(Cart cart, Customer customer, int cost)
+    public async Task PlaceOrderAsync(Cart cart, Customer customer, int cost)
     {
         // initialize variables and open connection
         int cartID = 0;
@@ -142,13 +142,13 @@ public class Data : IData
         SqlCommand cmd = new SqlCommand("SELECT * FROM Cart INSERT INTO Cart(CustomerID, Total) VALUES (@CustomerID, @Total)", connection);
         cmd.Parameters.AddWithValue("@CustomerID", customer.Id);
         cmd.Parameters.AddWithValue("@Total", cost);
-        cmd.ExecuteScalar();
+        await cmd.ExecuteScalarAsync();
 
         // gets the cart id to know which cart to put the items into
         cmd = new SqlCommand("SELECT TOP 1 * FROM Cart ORDER BY CartID DESC", connection);
         SqlDataReader dataReader = cmd.ExecuteReader();
 
-        while(dataReader.Read())
+        while(await dataReader.ReadAsync())
         {
             cartID = dataReader.GetInt32(0);
         }
@@ -160,7 +160,7 @@ public class Data : IData
             cmd = new SqlCommand("SELECT * FROM Orders INSERT INTO Orders(ProductID, CartID) VALUES (@ProductID, @CartID)", connection);
             cmd.Parameters.AddWithValue("@ProductID", cart.currentCart[i].Id);
             cmd.Parameters.AddWithValue("@CartID", cartID);
-            cmd.ExecuteScalar();
+            await cmd.ExecuteScalarAsync();
         }
         connection.Close();
     }

@@ -16,7 +16,7 @@ public class Manager : Collection
             case "1":
                 List<Product> inventoryList = await _httpService.GetInventoryAsync();
                 ViewInventory(inventoryList);
-                await new MenuFactory().GetMenu("manager").Start();
+                await new MenuFactory().GetMenu("manager").Start(_httpService);
                 break;
             case "2":
                 await chooseInventory(_httpService);
