@@ -1,4 +1,5 @@
 namespace Models;
+using System.Text.Json.Serialization;
 
 public class Product : CommonData
 {
@@ -8,6 +9,13 @@ public class Product : CommonData
     public Product(string product)
     {
         _productName = product;
+    }
+   
+    [JsonConstructorAttribute]
+    public Product(string getName, int Amount)
+    {
+        _productName = getName;
+        _productAmount = Amount;
     }
 
     public string getName

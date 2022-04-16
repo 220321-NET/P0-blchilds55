@@ -2,11 +2,9 @@ namespace UI;
 
 public class MenuFactory
 {
+    HttpService httpService = new HttpService();
     public IMenu GetMenu(string menuString)
     {
-        string connectionString = File.ReadAllText("./connectionString.txt");
-        HttpService httpService = new HttpService();
-        
         switch (menuString)
         {
             case "main":

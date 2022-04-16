@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text;
 using System;
+using System.Net.Http;
 
 namespace UI;
 public class HttpService
@@ -36,15 +37,40 @@ public class HttpService
 
     // }
 
-    // public List<Product> GetInventory()
-    // {
+    public async Task<List<Product>> GetInventoryAsync()
+    {
+        List<Product> inventoryList = new List<Product>();
 
-    // }
+        try
+        {
+            HttpResponseMessage response = await client.GetAsync("Store/Inventory");
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            
+            inventoryList = JsonSerializer.Deserialize<List<Product>>(responseString) ?? new List<Product>();
+        }
+        catch(HttpRequestException ex)
+        {
+            Console.WriteLine(ex);
+        }
+        return inventoryList;
+    }
 
-    // public void SetDatabaseInventory()
-    // {
+    public async Task SetDatabaseInventoryAsync(Product product)
+    {
+        string json = JsonSerializer.Serialize(product);
+        StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-    // }
+        try
+        {
+            HttpResponseMessage response = await client.PutAsync("Store/SetInventory", content);
+            response.EnsureSuccessStatusCode();
+        }
+        catch(HttpRequestException ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
 
     // public void CostOfItemsInCart()
     // {
@@ -56,8 +82,22 @@ public class HttpService
 
     // }
 
-    // public void GetOrderHistory()
-    // {
-        
-    // }
+    public async Task<List<Cart>> GetOrderHistoryAsync(int id)
+    {
+        List<Cart> cart = new List<Cart>();
+
+        try
+        {
+            HttpResponseMessage response = await client.GetAsync($"Store/Cart/{id}");
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            
+            cart = JsonSerializer.Deserialize<List<Cart>>(responseString) ?? new List<Cart>();
+        }
+        catch(HttpRequestException ex)
+        {
+            Console.WriteLine(ex);
+        }
+        return cart;
+    }
 }

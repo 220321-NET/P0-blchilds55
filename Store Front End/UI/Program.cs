@@ -1,3 +1,3 @@
 ﻿using UI;
 
-new MenuFactory().GetMenu("main").Start();
+await new MenuFactory().GetMenu("main").Start();

@@ -1,12 +1,13 @@
 namespace UI;
 
+
 public class StoreMenu : Collection {
     
-    public override async void Start(HttpService _httpService, Customer value) 
+    public override async Task Start(HttpService _httpService, Customer value) 
     {
         Cart cart = new Cart();
-        // List<Product> inventoryList =  _httpService.GetInventory();
-        string input = "";
+        List<Product> inventoryList = await _httpService.GetInventoryAsync();
+        string input;
 
         Console.WriteLine("88888888888888888888888888888888888888888888888888888888888888888888888");
         Console.WriteLine("|| [1] Coffee $2.00                     [4] French Toast $7.00       ||");
@@ -47,7 +48,11 @@ public class StoreMenu : Collection {
                     // AddToCart(cherrypie, cart, input, inventoryList, _httpService);
                     break;
                 case "r":
-                    // _httpService.GetOrderHistory(value.id);
+                    List<Cart> orderHistory = await _httpService.GetOrderHistoryAsync(value.Id);
+                    for (int i = 0; i < orderHistory.Count; i++)
+                    {
+                        Console.WriteLine("Order " + $"[{i + 1}]: " + orderHistory[i].Cost + "$");
+                    }
                     continue;
             }
         } while (input != "x");
@@ -56,15 +61,15 @@ public class StoreMenu : Collection {
         // DON'T FORGET THIS IS HERE. 
         //
 
-        if (cart.currentCart.Count > 0)
-        {
-            // SendOrder(cart, _httpService, value);
-        }
-        else
-        {
-            Console.WriteLine("Returning to main menu");
-            new MenuFactory().GetMenu("main").Start(_httpService);
-        }
+        // if (cart.currentCart.Count > 0)
+        // {
+        //     // SendOrder(cart, _httpService, value);
+        // }
+        // else
+        // {
+        //     Console.WriteLine("Returning to main menu");
+        //     new MenuFactory().GetMenu("main").Start(_httpService);
+        // }
     }
     public Cart AddToCart(Product value, Cart cart, string itemID, List<Product> inventoryList, HttpService _httpService)
     {   

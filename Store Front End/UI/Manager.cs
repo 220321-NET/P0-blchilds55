@@ -2,7 +2,7 @@ namespace UI;
 
 public class Manager : Collection 
 {
-    public override async void Start(HttpService _httpService)
+    public override async Task Start(HttpService _httpService)
     {
         Console.WriteLine("88888888888888888888888888");
         Console.WriteLine("|| [1] View Inventory   ||");
@@ -14,12 +14,12 @@ public class Manager : Collection
         switch (input)
         {
             case "1":
-                // List<Product> inventoryList = _httpService.GetInventory();
-                // ViewInventory(inventoryList);
-                new MenuFactory().GetMenu("manager").Start();
+                List<Product> inventoryList = await _httpService.GetInventoryAsync();
+                ViewInventory(inventoryList);
+                await new MenuFactory().GetMenu("manager").Start();
                 break;
             case "2":
-                // chooseInventory(_httpService);
+                await chooseInventory(_httpService);
                 break;
         }
     }
@@ -28,11 +28,11 @@ public class Manager : Collection
         
         for(int i = 0; i < inventoryList.Count; i++)
         {
-            Console.WriteLine("[" + $"{inventoryList[i].Id - 1}" + "] " + $"{inventoryList[i].getName}" + ": " + $"{inventoryList[i].Amount}");
+            Console.WriteLine("[" + $"{inventoryList[i].Id}" + "] " + $"{inventoryList[i].getName}" + ": " + $"{inventoryList[i].Amount}");
         }
     }
 
-    public void chooseInventory(HttpService _httpService)
+    public async Task chooseInventory(HttpService _httpService)
     {   
         string chooseProduct = "";
         
@@ -47,37 +47,37 @@ public class Manager : Collection
             {
                 case "1": 
                     product = new("Coffee");
-                    // SendToDataLayer(_httpService, product, chooseProduct);
+                    await SendToDataLayer(_httpService, product, chooseProduct);
                     break;
                 case "2":
                     product = new("Eggs");
-                    // SendToDataLayer(_httpService, product, chooseProduct);
+                    await SendToDataLayer(_httpService, product, chooseProduct);
                     break;
                 case "3":
                     product = new("Steak");
-                    // SendToDataLayer(_httpService, product, chooseProduct);
+                    await SendToDataLayer(_httpService, product, chooseProduct);
                     break;
                 case "4":
                     product = new("French Toast");
-                    // SendToDataLayer(_httpService, product, chooseProduct);
+                    await SendToDataLayer(_httpService, product, chooseProduct);
                     break;
                 case "5":
                     product = new("Pancakes");
-                    // SendToDataLayer(_httpService, product, chooseProduct);
+                    await SendToDataLayer(_httpService, product, chooseProduct);
                     break;
                 case "6":
                     product = new("Cherry Pie");
-                    // SendToDataLayer(_httpService, product, chooseProduct);
+                    await SendToDataLayer(_httpService, product, chooseProduct);
                     break;
                 case "i":
-                    // List<Product> inventoryList =_httpService.GetInventory();
-                    // ViewInventory(inventoryList);
+                    List<Product> inventoryList = await _httpService.GetInventoryAsync();
+                    ViewInventory(inventoryList);
                     break;
             }
         } while(chooseProduct != "x");
     }
 
-    public void SendToDataLayer(HttpService _httpService, Product product, string chooseProduct)
+    public async Task SendToDataLayer(HttpService _httpService, Product product, string chooseProduct)
     {
         string addAmount = "";
 
@@ -86,6 +86,6 @@ public class Manager : Collection
 
         product.Id = Convert.ToInt32(chooseProduct);
         product.Amount = Convert.ToInt32(addAmount);
-        // _httpService.SetDatabaseInventory(product);      
+        await _httpService.SetDatabaseInventoryAsync(product);      
     }
 }

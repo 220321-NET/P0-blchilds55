@@ -79,7 +79,7 @@ public class Data : IData
         return cost;
     }
 
-    public List<Product> GetInventory()
+    public async Task<List<Product>> GetInventoryAsync()
     {   
         List<Product> inventoryList = new List<Product>();
 
@@ -90,7 +90,7 @@ public class Data : IData
         
         SqlDataReader dataReader = cmd.ExecuteReader();
 
-        while(dataReader.Read())
+        while(await dataReader.ReadAsync())
         {   
             int Id = (dataReader.GetInt32(2));
             int productAmount = dataReader.GetInt32(5);
@@ -106,7 +106,7 @@ public class Data : IData
         return inventoryList;
     }
 
-    public int SetDatabaseInventory(Product value)
+    public async Task SetDatabaseInventoryAsync(Product value)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
@@ -118,19 +118,17 @@ public class Data : IData
         cmd.Parameters.AddWithValue("@IUpdate", value.Amount);
         cmd.Parameters.AddWithValue("@id", value.Id);
 
-        cmd.ExecuteScalar();
+        await cmd.ExecuteScalarAsync();
 
         cmd = new SqlCommand("SELECT * FROM Product WHERE ProductID = " + $"{value.Id}", connection);
-        SqlDataReader dataReader = cmd.ExecuteReader();
+        SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
 
-        if (dataReader.Read())
+        if (await dataReader.ReadAsync())
         {
             value.Amount = dataReader.GetInt32(3);
         }
         dataReader.Close();
-        connection.Close();
-
-        return value.Amount;        
+        connection.Close();       
     }
 
     public void PlaceOrder(Cart cart, Customer customer, int cost)
@@ -167,7 +165,7 @@ public class Data : IData
         connection.Close();
     }
 
-    public List<Cart> GetOrderHistory(int customer) 
+    public async Task<List<Cart>> GetOrderHistoryAsync(int customer) 
     {
         // initializing variables
         List<Cart> orderHistory = new List<Cart>();
@@ -181,7 +179,7 @@ public class Data : IData
 
         // loops through all the carts purchased by the customer, grabs the total cost of each and prints them to console. count is being used to keep count of the number of carts.
         SqlDataReader dataReader = cmd.ExecuteReader();
-        while(dataReader.Read())
+        while(await dataReader.ReadAsync())
         {   
             int costOfCart = dataReader.GetInt32(2);
             Cart cart = new Cart();

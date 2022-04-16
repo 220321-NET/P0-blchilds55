@@ -22,14 +22,14 @@ public class StoreBL : IStoreBL
         return _repo.CostOfItemsInCart(value);
     }
 
-    public List<Product> GetInventory()
+    public async Task<List<Product>> GetInventoryAsync()
     {
-        return _repo.GetInventory();
+        return await _repo.GetInventoryAsync();
     }
 
-    public int SetDatabaseInventory(Product value)
+    public async Task SetDatabaseInventoryAsync(Product value)
     {
-        return _repo.SetDatabaseInventory(value);
+        await _repo.SetDatabaseInventoryAsync(value);
     }
 
     public void PlaceOrder(Cart cart, Customer customer, int cost)
@@ -37,9 +37,9 @@ public class StoreBL : IStoreBL
         _repo.PlaceOrder(cart, customer, cost);
     }
 
-    public List<Cart> GetOrderHistory(int value)
+    public async Task<List<Cart>> GetOrderHistoryAsync(int value)
     {
-        return _repo.GetOrderHistory(value);
+        return await _repo.GetOrderHistoryAsync(value);
     }
 }
 

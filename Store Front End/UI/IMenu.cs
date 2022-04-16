@@ -1,7 +1,7 @@
 namespace UI;
 public interface IMenu
 {
-    public void Start();
-    public void Start(HttpService httpService);
-    public void Start(HttpService httpService, Customer value1);
+    public Task Start();
+    public Task Start(HttpService httpService);
+    public Task Start(HttpService httpService, Customer value1);
 }

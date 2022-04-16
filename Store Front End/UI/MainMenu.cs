@@ -9,7 +9,7 @@ public class MainMenu : Collection
         _httpService = httpService;
     }
 
-    public async override void Start() 
+    public async override Task Start() 
     {   
         string input;
         do
@@ -26,15 +26,15 @@ public class MainMenu : Collection
             switch (input)
             {
                 case "1": 
-                    new MenuFactory().GetMenu("login").Start(_httpService);
+                    await new MenuFactory().GetMenu("login").Start(_httpService);
                     break;
 
                 case "2": 
-                    new MenuFactory().GetMenu("signup").Start(_httpService);
+                    await new MenuFactory().GetMenu("signup").Start(_httpService);
                     break;
 
                 case "norma":
-                    new MenuFactory().GetMenu("manager").Start(_httpService);
+                    await new MenuFactory().GetMenu("manager").Start(_httpService);
                     break;
             }
         } while(input != "x");

@@ -16,28 +16,26 @@ namespace WebAPI.Controllers
             _bl = bl;
         }
         
-        [HttpGet("userName")]
-        public async Task<Customer> GetAsync(string userName)
+        [HttpGet("{userName}")]
+        public async Task<Customer> GetCustomerAsync(string userName)
         {
             Customer customer = new Customer();
 
             customer = await _bl.FindCustomerAsync(userName);
             return customer;
         }
-        // // GET api/<StoreController>/5
-        // [HttpGet("{id}")]
-        // public ActionResult<List<Cart>> Get(int id)
-        // {
-        //     if (id <= 0)
-        //     {
-        //         return BadRequest();
-        //     }
-        //     else
-        //     {
-        //         return _bl.GetOrderHistory(id);
-        //     }            
-        // }
+       
+        [HttpGet("Cart/{id}")]
+        public async Task<List<Cart>> GetOrderHistoryAsync(int id)
+        {
+            return await _bl.GetOrderHistoryAsync(id);          
+        }
 
+        [HttpGet("Inventory")]
+        public async Task<List<Product>> GetInventoryAsync()
+        {
+            return await _bl.GetInventoryAsync();
+        }
         // // POST api/<StoreController>
         // [HttpPost]
         // public ActionResult Post([FromBody] string customerName, [FromBody] string customerPass)
@@ -51,11 +49,47 @@ namespace WebAPI.Controllers
         // }
 
         // PUT api/<StoreController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("SetInventory")]
+        public async Task PutInventoryAsync(Product product)
         {
+            await _bl.SetDatabaseInventoryAsync(product);
         }
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         // DELETE api/<StoreController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
