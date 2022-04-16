@@ -1,4 +1,5 @@
 namespace Models;
+using System.Text.Json.Serialization;
 
 public abstract class CommonData
 {

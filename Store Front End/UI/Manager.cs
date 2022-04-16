@@ -77,9 +77,11 @@ public class Manager : Collection
         } while(chooseProduct != "x");
     }
 
-    public async Task SendToDataLayer(HttpService _httpService, Product product, string chooseProduct)
+    public async Task SendToDataLayer(HttpService _httpService, Product value, string chooseProduct)
     {
         string addAmount = "";
+
+        Product product = new Product(value.Id, value.DateCreated, value.getName, value.Amount);
 
         Console.WriteLine("Enter the amount of inventory:");
         addAmount = ReadStuff();
