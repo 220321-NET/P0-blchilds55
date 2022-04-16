@@ -8,7 +8,7 @@ public class SignUp : Collection
         Console.WriteLine("Enter a username:");
         string customerName = ReadStuff();
             
-        // _httpService.CreateCustomer(customerName);
-        await new MenuFactory().GetMenu("login").Start();
+        await _httpService.CreateCustomerAsync(customerName);
+        await new MenuFactory().GetMenu("main").Start(_httpService);
     }
 }

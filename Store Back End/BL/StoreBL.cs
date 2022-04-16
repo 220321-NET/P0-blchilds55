@@ -12,9 +12,9 @@ public class StoreBL : IStoreBL
     {
         return await _repo.FindCustomerAsync(userName);
     }
-    public void CreateCustomer(string customerName) 
+    public async Task CreateCustomerAsync(string customerName) 
     {
-        _repo.CreateCustomer(customerName);
+        await _repo.CreateCustomerAsync(customerName);
     }
 
     public async Task<int> CostOfItemsInCartAsync(Cart value)

@@ -3,7 +3,7 @@ namespace DL;
 public interface IData
 {
         public Task<Customer> FindCustomerAsync(string userName);
-        public void CreateCustomer(string customerName);
+        public Task CreateCustomerAsync(string customerName);
         public Task<int> CostOfItemsInCartAsync(Cart value);
         public Task<List<Product>> GetInventoryAsync();
         public Task SetDatabaseInventoryAsync(Product value);

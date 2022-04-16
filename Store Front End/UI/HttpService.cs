@@ -32,10 +32,23 @@ public class HttpService
         return customer;
     }
     
-    // public void CreateCustomer(string customerName)
-    // {
+    public async Task CreateCustomerAsync(string customerName)
+    {
+        string json = JsonSerializer.Serialize(customerName);
+        StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-    // }
+        try
+        {
+            HttpResponseMessage response = await client.PostAsync($"Store/CreateCustomer/{customerName}", content);
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+
+        }
+        catch(HttpRequestException ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
 
     public async Task<List<Product>> GetInventoryAsync()
     {

@@ -38,19 +38,20 @@ public class Data : IData
         return customer;
     }
 
-    public void CreateCustomer(string customerName) 
+    public async Task CreateCustomerAsync(string customerName) 
     {
         // initialize variables and open connection
         using SqlConnection connection = new SqlConnection(_connectionString);
-        connection.Open();
+        await connection.OpenAsync();
 
         // put the created customer into the customer table
         using SqlCommand cmd = new SqlCommand("INSERT INTO Customer(Name, Pass) VALUES (@Name, @Pass)", connection);
         cmd.Parameters.AddWithValue("@Name", customerName);
+        cmd.Parameters.AddWithValue("@Pass", "ifIgetaroundtoit");
 
         // execute command and close connection
-        cmd.ExecuteScalar();
-        connection.Close();
+        await cmd.ExecuteScalarAsync();
+        await connection.CloseAsync();
     }
 
     public async Task<int> CostOfItemsInCartAsync(Cart value)

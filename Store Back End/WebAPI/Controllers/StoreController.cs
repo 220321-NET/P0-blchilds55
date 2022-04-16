@@ -42,19 +42,13 @@ namespace WebAPI.Controllers
         {
             return await _bl.GetInventoryAsync();
         }
-        // // POST api/<StoreController>
-        // [HttpPost]
-        // public ActionResult Post([FromBody] string customerName, [FromBody] string customerPass)
-        // {
-        //     if (customerName.Length > 0 & customerPass.Length > 0)
-        //     {
-        //         _bl.CreateCustomer(customerName, customerPass);
-        //         return Ok();
-        //     }
-        //     return NoContent();
-        // }
 
-        // PUT api/<StoreController>/5
+        [HttpPost("CreateCustomer/{customerName}")]
+        public async Task Post(string customerName)
+        {
+            await _bl.CreateCustomerAsync(customerName);
+        }
+
         [HttpPost("PlaceOrder")]
         public async Task PostOrderAsync(Tuple<Cart, Customer, int> OrderToBePlaced)
         {
@@ -68,6 +62,7 @@ namespace WebAPI.Controllers
 
             await _bl.PlaceOrderAsync(cart, customer, cost);
         }
+
         [HttpPut("SetInventory")]
         public async Task PutInventoryAsync(Product product)
         {
