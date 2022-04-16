@@ -77,20 +77,15 @@ public class Manager : Collection
         } while(chooseProduct != "x");
     }
 
-    public async Task SendToDataLayer(HttpService _httpService, Product value, string chooseProduct)
+    public async Task SendToDataLayer(HttpService _httpService, Product product, string chooseProduct)
     {
         string addAmount = "";
-
-        Product product = new Product(value.Id, value.DateCreated, value.getName, value.Amount);
 
         Console.WriteLine("Enter the amount of inventory:");
         addAmount = ReadStuff();
 
         product.Id = Convert.ToInt32(chooseProduct);
         product.Amount = Convert.ToInt32(addAmount);
-        product.DateCreated = DateTime.Now;
-        product.getName = product.getName;
-        Console.WriteLine(product.Id + " " + product.Amount + " " + product.getName + " " + product.DateCreated);
         await _httpService.SetDatabaseInventoryAsync(product);      
     }
 }

@@ -1,5 +1,5 @@
 namespace Models;
-using System.Text.Json.Serialization;
+// using System.Text.Json.Serialization;
 
 public class Product : CommonData
 {
@@ -10,27 +10,22 @@ public class Product : CommonData
     {
         _productName = product;
     }
-
-    public Product(int id, DateTime created, string getName, int Amount)
-    {
-        _productName = getName;
-        _productAmount = Amount;
-    }
    
-    [JsonConstructorAttribute]
-    public Product(string getName, int Amount)
-    {
-        _productName = getName;
-        _productAmount = Amount;
-    }
+    // [JsonConstructorAttribute]
+    // public Product(string getName, int Amount)
+    // {
+    //     _productName = getName;
+    //     _productAmount = Amount;
+    // }
 
+    // [JsonIgnore]
     public string getName
     {
         get => _productName;
-        set
-        {
-            _productName = value;
-        }
+        // set
+        // {
+        //     _productName = value;
+        // }
     }
 
     public int Amount 
@@ -41,7 +36,4 @@ public class Product : CommonData
             _productAmount = value;
         } 
     }
-
-    // [JsonIgnore]
-    // public DateTime DateCreated { get; set; } = DateTime.Now;
 }
